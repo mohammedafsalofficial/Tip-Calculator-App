@@ -3,6 +3,7 @@ package com.example.tipcalculator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,7 +51,9 @@ fun TipCalculatorApp() {
     val tip = calculateTip(amount, tipPercent, roundUp)
 
     Column(
-        modifier = Modifier.padding(40.dp).verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .padding(40.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -60,6 +64,7 @@ fun TipCalculatorApp() {
                 .align(alignment = Alignment.Start)
         )
         EditNumberField(
+            leadingIcon = R.drawable.money,
             label = R.string.bill_amount,
             value = amountInput,
             onValueChange = { amountInput = it },
@@ -72,6 +77,7 @@ fun TipCalculatorApp() {
                 .fillMaxWidth(),
         )
         EditNumberField(
+            leadingIcon = R.drawable.percent,
             label = R.string.how_was_the_service,
             value = tipInput,
             onValueChange = { tipInput = it },
@@ -99,12 +105,16 @@ fun TipCalculatorApp() {
 @Composable
 fun EditNumberField(
     @StringRes label: Int,
+    @DrawableRes leadingIcon: Int,
     value: String,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions,
     modifier: Modifier = Modifier,
 ) {
     TextField(
+        leadingIcon = {
+            Icon(painter = painterResource(id = leadingIcon), contentDescription = null)
+        },
         label = { Text(text = stringResource(id = label)) },
         singleLine = true,
         keyboardOptions = keyboardOptions,
