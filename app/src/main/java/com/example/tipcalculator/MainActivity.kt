@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -148,7 +150,8 @@ fun RoundTheTip(
     }
 }
 
-private fun calculateTip(amount: Double, tipPercent: Double, roundUp: Boolean): String {
+@VisibleForTesting
+internal fun calculateTip(amount: Double, tipPercent: Double, roundUp: Boolean): String {
     var tip = amount * tipPercent / 100
     if (roundUp) tip = kotlin.math.ceil(tip)
     return NumberFormat.getCurrencyInstance().format(tip)
